@@ -7,16 +7,16 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-const signinFormSchema = z.object({
+const signupFormSchema = z.object({
   email: z.string().email(''),
 })
 
-type FormDataProps = z.infer<typeof signinFormSchema>
+type FormDataProps = z.infer<typeof signupFormSchema>
 
-export function SignIn() {
+export function SignUp() {
   const { formState, register, handleSubmit } = useForm<FormDataProps>()
 
-  async function handleSignIn(data: FormDataProps) {
+  async function handleSignUp(data: FormDataProps) {
     try {
       console.log(data)
 
@@ -24,7 +24,7 @@ export function SignIn() {
       toast.success('Enviamos um link de autenticação para o seu e-mail', {
         action: {
           label: 'Reenviar',
-          onClick: () => handleSignIn(data),
+          onClick: () => handleSignUp(data),
         },
       })
     } catch (error) {
@@ -45,7 +45,7 @@ export function SignIn() {
               Acompanhe suas vendas pelo painel do parceiro
             </p>
           </div>
-          <form onSubmit={handleSubmit(handleSignIn)} className="space-y-4">
+          <form onSubmit={handleSubmit(handleSignUp)} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Seu e-mail</Label>
               <Input id="email" type="email" {...register('email')} />
