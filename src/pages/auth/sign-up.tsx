@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -8,7 +9,10 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 const signupFormSchema = z.object({
-  email: z.string().email(''),
+  restauratntname: z.string(),
+  managerName: z.string(),
+  phone: z.string(),
+  email: z.string().email('Digite um e-mail válido'),
 })
 
 type FormDataProps = z.infer<typeof signupFormSchema>
@@ -34,15 +38,18 @@ export function SignUp() {
 
   return (
     <>
-      <Helmet title="Login" />
+      <Helmet title="Cadastrar-se" />
       <div className="p-8">
+        <Button variant={'ghost'} asChild className="absolute right-8 top-8">
+          <Link to="/sign-in">Fazer Login</Link>
+        </Button>
         <div className="flex w-[350px] flex-col justify-center gap-6">
           <div className="flex- flex-col justify-center gap-2">
             <h1 className="text-2xl font-semibold tracking-tighter">
-              Acessar Painel
+              Criar conta grátis
             </h1>
             <p className="font-sm text-muted-foreground">
-              Acompanhe suas vendas pelo painel do parceiro
+              Seja um parceiro e comece as vendas
             </p>
           </div>
           <form onSubmit={handleSubmit(handleSignUp)} className="space-y-4">

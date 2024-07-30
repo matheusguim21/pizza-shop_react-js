@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -8,7 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 const signinFormSchema = z.object({
-  email: z.string().email(''),
+  email: z.string().email('Digite um e-mail válido'),
 })
 
 type FormDataProps = z.infer<typeof signinFormSchema>
@@ -36,6 +37,9 @@ export function SignIn() {
     <>
       <Helmet title="Login" />
       <div className="p-8">
+        <Button variant="ghost" asChild className="absolute right-8 top-8">
+          <Link to={'/sign-up'}>Novo Estabelecimento</Link>
+        </Button>
         <div className="flex w-[350px] flex-col justify-center gap-6">
           <div className="flex- flex-col justify-center gap-2">
             <h1 className="text-2xl font-semibold tracking-tighter">
