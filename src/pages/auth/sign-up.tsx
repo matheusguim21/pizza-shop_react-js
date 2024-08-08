@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 const signupFormSchema = z.object({
-  restauratntname: z.string(),
+  restaurantName: z.string(),
   managerName: z.string(),
   phone: z.string(),
   email: z.string().email('Digite um e-mail válido'),
@@ -20,19 +20,20 @@ type FormDataProps = z.infer<typeof signupFormSchema>
 export function SignUp() {
   const { formState, register, handleSubmit } = useForm<FormDataProps>()
 
+  const navigate = useNavigate()
   async function handleSignUp(data: FormDataProps) {
     try {
       console.log(data)
 
       await new Promise((resolve) => setTimeout(resolve, 2000))
-      toast.success('Enviamos um link de autenticação para o seu e-mail', {
+      toast.success('Restaurante cadastrado com sucesso', {
         action: {
-          label: 'Reenviar',
-          onClick: () => handleSignUp(data),
+          label: 'Login',
+          onClick: () => navigate('/sign-in'),
         },
       })
     } catch (error) {
-      toast.error('E-mail inválido')
+      toast.error('Erro ao cadastrar restaurante')
     }
   }
 
@@ -54,9 +55,31 @@ export function SignUp() {
           </div>
           <form onSubmit={handleSubmit(handleSignUp)} className="space-y-4">
             <div className="space-y-2">
+              <Label htmlFor="restaurantName">Nome do estabelcimento</Label>
+              <Input
+                id="restaurantName"
+                type="text"
+                {...register('restaurantName')}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="managerName">Seu Nome</Label>
+              <Input
+                autoCapitalize="words"
+                id="managerName"
+                type="text"
+                {...register('managerName')}
+              />
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="email">Seu e-mail</Label>
               <Input id="email" type="email" {...register('email')} />
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="phone">Seu celular</Label>
+              <Input id="phone" type="text" {...register('phone')} />
+            </div>
+
             <Button
               disabled={formState.isSubmitting}
               className="w-full"
@@ -64,6 +87,17 @@ export function SignUp() {
             >
               Acessar Painel
             </Button>
+
+            <p className="px-6 text-center text-sm leading-relaxed text-muted-foreground">
+              Ao clicar em continuar você concorda com nossos{' '}
+              <a href="" className="underline underline-offset-4">
+                Termos de serviço
+              </a>{' '}
+              e{' '}
+              <a href="" className="underline underline-offset-4">
+                Políticas de privacidade
+              </a>
+            </p>
           </form>
         </div>
       </div>
